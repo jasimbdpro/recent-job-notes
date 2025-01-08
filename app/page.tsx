@@ -120,11 +120,11 @@ export default function Page() {
 
   return (
     <div>
-      <h2>Product and Description App</h2>
-      <h4>Kindly list your product name and Description to the database:</h4>
+      <h2>Current Job Notes</h2>
+      <h4>Enter New Tips and Notes:</h4>
       <form onSubmit={handleSubmit}>
         <label>
-          Product Name:
+          Note Title:
           <br />
           <input
             type="text"
@@ -163,7 +163,7 @@ export default function Page() {
         >
           <thead>
             <tr>
-              <th>Product Name</th>
+              <th>Note Title</th>
               <th>Description</th>
               <th>Actions</th>
             </tr>
@@ -220,9 +220,9 @@ export default function Page() {
             border: "1px solid black",
           }}
         >
-          <h3>Edit Product</h3>
+          <h3>Edit Note</h3>
           <label>
-            Product Name: <br />
+            Note Title: <br />
             <input
               type="text"
               value={editedName}
