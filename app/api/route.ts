@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 // MongoDB Connection Utility
 const connectToDatabase = async (): Promise<void> => {
   if (mongoose.connections[0].readyState) return; // Already connected
-  const URI = process.env.MONGO_URI_SECRET21 || "URI not loaded";
+  const URI = process.env.MONGO_URI_RECENT_JOB || "URI not loaded";
   try {
     await mongoose.connect(URI);
     console.log("Connected to MongoDB");
