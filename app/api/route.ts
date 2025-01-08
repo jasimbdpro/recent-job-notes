@@ -26,8 +26,8 @@ const productSchema = new Schema<IProduct>({
 });
 
 const ProductModel: Model<IProduct> =
-  mongoose.models["secretcrudpost22"] ||
-  mongoose.model<IProduct>("secretcrudpost22", productSchema);
+  mongoose.models["job_notes"] ||
+  mongoose.model<IProduct>("job_notes", productSchema);
 
 // API Handlers
 export async function GET(): Promise<Response> {
