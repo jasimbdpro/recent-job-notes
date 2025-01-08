@@ -13,8 +13,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Current Job Notes",
-  description: "Current Job Notes",
+  title: "Recent Job Notes",
+  description: "Recent Job Notes",
 };
 
 export default function RootLayout({

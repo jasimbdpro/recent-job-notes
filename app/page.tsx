@@ -120,7 +120,7 @@ export default function Page() {
 
   return (
     <div>
-      <h2>Current Job Notes</h2>
+      <h2>Recent Job Notes</h2>
       <h4>Enter New Tips and Notes:</h4>
       <form onSubmit={handleSubmit}>
         <label>
