@@ -72,6 +72,7 @@ export default function Page() {
  setFormData({
     productName: "",
     price: "",
+   conditionText: "",
   });
         
         await fetchData();
