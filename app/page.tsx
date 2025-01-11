@@ -234,9 +234,17 @@ export default function Page() {
                     <button onClick={() => handleEditClick(product)}>
                       Edit
                     </button>
-                    <button onClick={() => handleDelete(product._id)}>
+
+
+
+                    {/* Delete Option Temporarily Disable  */}
+
+                    {/* <button onClick={() => handleDelete(product._id)}>
                       Del
-                    </button>
+                    </button> */}
+
+
+
                   </td>
                 </tr>
               ))}
