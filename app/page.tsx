@@ -7,6 +7,7 @@ interface IProduct {
   _id: string;
   productName: string;
   price: string;
+  conditionText: string;
 }
 
 interface IFormData {
@@ -25,6 +26,7 @@ export default function Page() {
   const [editProduct, setEditProduct] = useState<IProduct | null>(null);
   const [editedName, setEditedName] = useState<string>("");
   const [editedPrice, setEditedPrice] = useState<string>("");
+  const [editedconditionText, setEditedconditionText] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
 
   // Base URL for API
@@ -54,35 +56,35 @@ export default function Page() {
   // Post Data
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if(formData.conditionText !== 'a'){
+    if (formData.conditionText !== 'a') {
       alert('Access denied. Please provide the correct condition value.');
     }
     else {
       try {
-      const response = await fetch(`${NEXT_PUBLIC_BASE_URL}/api`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+        const response = await fetch(`${NEXT_PUBLIC_BASE_URL}/api`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
 
-      if (response.ok) {
-        setVisible(true);
-        setTimeout(() => setVisible(false), 1000);
+        if (response.ok) {
+          setVisible(true);
+          setTimeout(() => setVisible(false), 1000);
 
 
- setFormData({
-    productName: "",
-    price: "",
-   conditionText: "",
-  });
-        
-        await fetchData();
-      } else {
-        throw new Error(`HTTP Error: ${response.status}`);
+          setFormData({
+            productName: "",
+            price: "",
+            conditionText: "",
+          });
+
+          await fetchData();
+        } else {
+          throw new Error(`HTTP Error: ${response.status}`);
+        }
+      } catch (error) {
+        console.error("Error posting data:", error);
       }
-    } catch (error) {
-      console.error("Error posting data:", error);
-    }
     }
   };
 
@@ -91,25 +93,33 @@ export default function Page() {
     setEditProduct(product);
     setEditedName(product.productName);
     setEditedPrice(product.price);
+    setEditedconditionText(product.conditionText);
+
   };
 
   const handleUpdate = async (id: string): Promise<void> => {
-    try {
-      const response = await fetch(`${NEXT_PUBLIC_BASE_URL}/api/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productName: editedName, price: editedPrice }),
-      });
 
-      if (response.ok) {
-        alert("Product updated successfully!");
-        setEditProduct(null);
-        await fetchData();
-      } else {
-        alert("Failed to update product");
+    if (formData.conditionText !== 'a') {
+      alert('Access denied. Please provide the correct condition value.');
+    } else {
+
+      try {
+        const response = await fetch(`${NEXT_PUBLIC_BASE_URL}/api/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ productName: editedName, price: editedPrice }),
+        });
+
+        if (response.ok) {
+          alert("Product updated successfully!");
+          setEditProduct(null);
+          await fetchData();
+        } else {
+          alert("Failed to update product");
+        }
+      } catch (error) {
+        console.error("Error updating product:", error);
       }
-    } catch (error) {
-      console.error("Error updating product:", error);
     }
   };
 
@@ -152,26 +162,26 @@ export default function Page() {
         </label>
         <br />
         <label>
-  Description:
-  <br />
-  <textarea
-    rows={2}
-    placeholder="Text Only"
-    value={formData.price}
-    onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-      setFormData({ ...formData, price: e.target.value })
-    }
-  />
-</label>
-        <br />
-        <input
-            type="text"
-            placeholder="condition text"
-            value={formData.conditionText}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setFormData({ ...formData, conditionText: e.target.value })
+          Description:
+          <br />
+          <textarea
+            rows={2}
+            placeholder="Text Only"
+            value={formData.price}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+              setFormData({ ...formData, price: e.target.value })
             }
           />
+        </label>
+        <br />
+        <input
+          type="password"
+          placeholder="condition text"
+          value={formData.conditionText}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setFormData({ ...formData, conditionText: e.target.value })
+          }
+        />
 
         <br />
         <button type="submit">Submit</button>
@@ -213,11 +223,12 @@ export default function Page() {
                     }}
                   >
                     <pre
-                       style={{ 
-                         fontFamily: 'sans-serif',
-                         wordWrap: 'break-word',
-                         whiteSpace: 'pre-wrap' }}
-                      >{product?.price}</pre>
+                      style={{
+                        fontFamily: 'sans-serif',
+                        wordWrap: 'break-word',
+                        whiteSpace: 'pre-wrap'
+                      }}
+                    >{product?.price}</pre>
                   </td>
                   <td>
                     <button onClick={() => handleEditClick(product)}>
@@ -233,7 +244,7 @@ export default function Page() {
         </table>
       </div>
       {editProduct && (
-        <div 
+        <div
           style={{
             position: "fixed",
             top: "50%",
@@ -266,6 +277,16 @@ export default function Page() {
               }
             />
           </label>
+          <br />
+          <input
+            type="password"
+            placeholder="condition text"
+            value={formData.conditionText}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, conditionText: e.target.value })
+            }
+          />
+
           <br />
           <button onClick={() => handleUpdate(editProduct._id)}>Update</button>
           <button onClick={() => setEditProduct(null)}>Cancel</button>
