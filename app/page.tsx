@@ -18,6 +18,7 @@ export default function Page() {
   const [formData, setFormData] = useState<IFormData>({
     productName: "",
     price: "",
+    conditionText: "",
   });
   const [gotData, setGotData] = useState<IProduct[]>([]);
   const [editProduct, setEditProduct] = useState<IProduct | null>(null);
@@ -52,7 +53,12 @@ export default function Page() {
   // Post Data
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    try {
+    if(formData.conditionText !== 'a'){
+      alert('Access denied. Please provide the correct condition value.');
+      return;
+    }
+    else {
+      try {
       const response = await fetch(`${NEXT_PUBLIC_BASE_URL}/api`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -75,6 +81,7 @@ export default function Page() {
       }
     } catch (error) {
       console.error("Error posting data:", error);
+    }
     }
   };
 
@@ -155,6 +162,15 @@ export default function Page() {
     }
   />
 </label>
+        <br />
+        <input
+            type="text"
+            placeholder="condition text"
+            value={formData.conditionText}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFormData({ ...formData, conditionText: e.target.value })
+            }
+          />
 
         <br />
         <button type="submit">Submit</button>
