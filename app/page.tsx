@@ -200,7 +200,7 @@ export default function Page() {
                       Edit
                     </button>
                     <button onClick={() => handleDelete(product._id)}>
-                      Delete
+                      Del
                     </button>
                   </td>
                 </tr>
