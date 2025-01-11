@@ -99,7 +99,7 @@ export default function Page() {
 
   const handleUpdate = async (id: string): Promise<void> => {
 
-    if (formData.conditionText !== 'a') {
+    if (editedconditionText !== 'a') {
       alert('Access denied. Please provide the correct condition value.');
     } else {
 
@@ -281,9 +281,9 @@ export default function Page() {
           <input
             type="password"
             placeholder="condition text"
-            value={formData.conditionText}
+            value={editedconditionText}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setFormData({ ...formData, conditionText: e.target.value })
+              setEditedconditionText(e.target.value )
             }
           />
 
