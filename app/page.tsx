@@ -62,6 +62,13 @@ export default function Page() {
       if (response.ok) {
         setVisible(true);
         setTimeout(() => setVisible(false), 1000);
+
+
+ setFormData({
+    productName: "",
+    price: "",
+  });
+        
         await fetchData();
       } else {
         throw new Error(`HTTP Error: ${response.status}`);
