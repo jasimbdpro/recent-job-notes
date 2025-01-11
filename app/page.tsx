@@ -177,7 +177,7 @@ export default function Page() {
           </thead>
           <tbody>
             {gotData &&
-              gotData.map((product) => (
+              [...gotData].map((product) => (
                 <tr key={product?._id}>
                   <td
                     style={{
