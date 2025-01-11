@@ -12,6 +12,7 @@ interface IProduct {
 interface IFormData {
   productName: string;
   price: string;
+  conditionText: string;
 }
 
 export default function Page() {
