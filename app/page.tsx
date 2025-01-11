@@ -55,7 +55,6 @@ export default function Page() {
     e.preventDefault();
     if(formData.conditionText !== 'a'){
       alert('Access denied. Please provide the correct condition value.');
-      return;
     }
     else {
       try {
