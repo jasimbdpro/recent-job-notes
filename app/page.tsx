@@ -36,7 +36,7 @@ export default function Page() {
   const fetchData = async (): Promise<void> => {
     try {
       const response = await fetch(`${NEXT_PUBLIC_BASE_URL}/api`, {
-        cache: "force-cache",
+        cache: "no-store",
       });
       if (response.ok) {
         const data: IProduct[] = await response.json();
