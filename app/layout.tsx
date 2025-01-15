@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import manifest from "./manifest";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,6 +16,7 @@ const geistMono = localFont({
 export const metadata = {
   title: "Recent Job Notes",
   description: "Recent Job Notes",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
