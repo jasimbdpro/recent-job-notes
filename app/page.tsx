@@ -235,7 +235,7 @@ export default function Page() {
                     <button onClick={() => handleEditClick(product)}>
                       Edit
                     </button>
-                    <button style={{display: "none"}} onClick={() => handleDelete(product._id)}>
+                    <button style={{display: "block"}} onClick={() => handleDelete(product._id)}>
                       Del
                     </button>
                   </td>
