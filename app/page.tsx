@@ -165,6 +165,7 @@ export default function Page() {
           Description:
           <br />
           <textarea
+            style={{paddingLeft: "3px"}}
             rows={2}
             placeholder="Text Only"
             value={formData.price}
@@ -270,6 +271,7 @@ export default function Page() {
           <label>
             Description: <br />
             <textarea
+              style={{paddingLeft: "3px"}}
               rows={2}
               value={editedPrice}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
