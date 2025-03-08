@@ -131,7 +131,9 @@ export default function Page() {
 
   // Handle Delete
   const handleDelete = async (id: string): Promise<void> => {
-    if (deleteConditionText === process.env.NEXT_PUBLIC_ACCESS_CONDITION_TEXT) {
+    if (deleteConditionText !== process.env.NEXT_PUBLIC_ACCESS_CONDITION_TEXT) {
+      alert('Access denied. Please provide the correct condition value.');
+    } else {
       try {
         const response = await fetch(`${NEXT_PUBLIC_BASE_URL}/api/${id}`, {
           method: "DELETE",
