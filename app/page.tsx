@@ -25,6 +25,8 @@ export default function Page() {
   const [gotData, setGotData] = useState<IProduct[]>([]);
   const [editProduct, setEditProduct] = useState<IProduct | null>(null);
   const [editedName, setEditedName] = useState<string>("");
+  const [deletableProduct, setDeletableProduct] = useState<string>("");
+  const [deleteConditionText, setDeleteConditionText] = useState<string>("");
   const [editedPrice, setEditedPrice] = useState<string>("");
   const [editedconditionText, setEditedconditionText] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
@@ -56,7 +58,7 @@ export default function Page() {
   // Post Data
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if (formData.conditionText !== 'a') {
+    if (formData.conditionText !== process.env.NEXT_PUBLIC_ACCESS_CONDITION_TEXT) {
       alert('Access denied. Please provide the correct condition value.');
     }
     else {
@@ -99,7 +101,7 @@ export default function Page() {
 
   const handleUpdate = async (id: string): Promise<void> => {
 
-    if (editedconditionText !== 'a') {
+    if (editedconditionText !== process.env.NEXT_PUBLIC_ACCESS_CONDITION_TEXT) {
       alert('Access denied. Please provide the correct condition value.');
     } else {
 
@@ -123,9 +125,13 @@ export default function Page() {
     }
   };
 
+  const handleDeleteClick = (id: string) => {
+    setDeletableProduct(id)
+  }
+
   // Handle Delete
   const handleDelete = async (id: string): Promise<void> => {
-    if (confirm("Are you sure you want to delete this product?")) {
+    if (deleteConditionText === process.env.NEXT_PUBLIC_ACCESS_CONDITION_TEXT) {
       try {
         const response = await fetch(`${NEXT_PUBLIC_BASE_URL}/api/${id}`, {
           method: "DELETE",
@@ -133,6 +139,7 @@ export default function Page() {
 
         if (response.ok) {
           alert("Product deleted successfully!");
+          setDeletableProduct("")
           await fetchData();
         } else {
           alert("Failed to delete product");
@@ -165,7 +172,7 @@ export default function Page() {
           Description:
           <br />
           <textarea
-            style={{paddingLeft: "3px"}}
+            style={{ paddingLeft: "3px" }}
             rows={2}
             placeholder="Text Only"
             value={formData.price}
@@ -235,7 +242,7 @@ export default function Page() {
                     <button onClick={() => handleEditClick(product)}>
                       Edit
                     </button>
-                    <button style={{display: "block"}} onClick={() => handleDelete(product._id)}>
+                    <button style={{ display: "block" }} onClick={() => handleDeleteClick(product._id)}>
                       Del
                     </button>
                   </td>
@@ -271,7 +278,7 @@ export default function Page() {
           <label>
             Description: <br />
             <textarea
-              style={{paddingLeft: "3px"}}
+              style={{ paddingLeft: "3px" }}
               rows={2}
               value={editedPrice}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -285,13 +292,39 @@ export default function Page() {
             placeholder="condition text"
             value={editedconditionText}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setEditedconditionText(e.target.value )
+              setEditedconditionText(e.target.value)
             }
           />
 
           <br />
           <button onClick={() => handleUpdate(editProduct._id)}>Update</button>
           <button onClick={() => setEditProduct(null)}>Cancel</button>
+        </div>
+      )}
+      {deletableProduct && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "gray",
+            padding: "20px",
+            border: "1px solid black",
+          }}
+        >
+          <h3>Delete Product</h3>
+          <br />
+          <input
+            type="password"
+            placeholder="condition text"
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setDeleteConditionText(e.target.value)
+            }
+          />
+          <br />
+          <button onClick={() => handleDelete(deletableProduct)}>Delete Confirm</button>
+          <button onClick={() => setDeletableProduct("")}>Cancel</button>
         </div>
       )}
     </div>
