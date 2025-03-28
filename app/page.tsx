@@ -201,6 +201,7 @@ export default function Page() {
       <br />
       <div style={{ overflowX: "auto" }}>
         <table
+          className="custom-table"
           border={1}
           cellPadding="5"
           style={{ width: "100%", borderCollapse: "collapse" }}
