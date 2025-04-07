@@ -32,7 +32,7 @@ export async function PUT(
     await connectToDb();
     const { id } = await context.params;
     const body = await req.json();
-    const { productName, price } = body as Partial<IProduct>;
+    const { productName, price } = body;
 
     const updatedProduct = await ProductModel.findByIdAndUpdate(
       id,
