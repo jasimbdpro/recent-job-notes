@@ -1,38 +1,10 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
-
-// MongoDB Connection Utility
-const connectToDatabase = async (): Promise<void> => {
-  if (mongoose.connections[0].readyState) return; // Already connected
-  const URI = process.env.MONGO_URI_RECENT_JOB || "URI not loaded";
-  try {
-    await mongoose.connect(URI);
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
-    throw new Error("Database connection failed");
-  }
-};
-
-// Define Product Interface
-interface IProduct extends Document {
-  productName: string;
-  price: string;
-}
-
-// Define Mongoose Schema and Model
-const productSchema = new Schema<IProduct>({
-  productName: { type: String, required: true },
-  price: { type: String, required: true },
-});
-
-const ProductModel: Model<IProduct> =
-  mongoose.models["job_notes"] ||
-  mongoose.model<IProduct>("job_notes", productSchema);
+import { connectToDb } from "@/lib/database";
+import { ProductModel } from "@/models/product";
 
 // API Handlers
 export async function GET(): Promise<Response> {
   try {
-    await connectToDatabase();
+    await connectToDb();
     const productData = await ProductModel.find({});
     return new Response(JSON.stringify(productData), { status: 200 });
   } catch (error) {
@@ -43,7 +15,7 @@ export async function GET(): Promise<Response> {
 
 export async function POST(req: Request): Promise<Response> {
   try {
-    await connectToDatabase();
+    await connectToDb();
     const body = (await req.json()) as Partial<IProduct>;
     const { productName, price } = body;
 
