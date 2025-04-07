@@ -16,7 +16,7 @@ export async function GET(): Promise<Response> {
 export async function POST(req: Request): Promise<Response> {
   try {
     await connectToDb();
-    const body = (await req.json()) as Partial<IProduct>;
+    const body = (await req.json());
     const { productName, price } = body;
 
     if (!productName || !price) {
